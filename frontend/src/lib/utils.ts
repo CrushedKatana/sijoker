@@ -49,3 +49,28 @@ export function formatRole(role: string) {
   };
   return map[role] ?? role;
 }
+
+export function formatJobType(jobType: string) {
+  return jobType === "full_time" ? "Full-time" : "Part-time";
+}
+
+export function timeAgo(value: string | null | undefined) {
+  if (!value) return "-";
+  const date = new Date(value);
+  const diffMs = Date.now() - date.getTime();
+  const diffMinutes = Math.floor(diffMs / 60000);
+  if (diffMinutes < 60) return diffMinutes <= 1 ? "Baru saja" : `${diffMinutes} menit lalu`;
+  const diffHours = Math.floor(diffMinutes / 60);
+  if (diffHours < 24) return `${diffHours} jam lalu`;
+  const diffDays = Math.floor(diffHours / 24);
+  if (diffDays < 7) return diffDays === 1 ? "1 hari lalu" : `${diffDays} hari lalu`;
+  const diffWeeks = Math.floor(diffDays / 7);
+  if (diffWeeks < 5) return diffWeeks === 1 ? "1 minggu lalu" : `${diffWeeks} minggu lalu`;
+  return formatDate(value);
+}
+
+export function salaryRange(min: number | null | undefined, max: number | null | undefined) {
+  if (!min && !max) return "Gaji dapat dinegosiasikan";
+  if (min && max) return `${formatCurrency(min)} - ${formatCurrency(max)}`;
+  return formatCurrency(min ?? max);
+}

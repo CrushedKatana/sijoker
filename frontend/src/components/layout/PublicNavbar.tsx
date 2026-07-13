@@ -4,11 +4,16 @@ import Link from "next/link";
 import { useAuth } from "@/lib/auth";
 import { Logo } from "@/components/ui/Logo";
 import { Button } from "@/components/ui/Button";
+import { SiapKerjaLink } from "@/components/layout/SiapKerjaLink";
+import { ExternalLinkIcon } from "@/components/ui/icons";
 import { formatRole, initials } from "@/lib/utils";
 
-const links = [
+const linksBeforeSiapKerja = [
   { href: "/pelatihan", label: "Pelatihan" },
   { href: "/pengaduan", label: "Pengaduan" },
+];
+
+const linksAfterSiapKerja = [
   { href: "/survei", label: "Survei Kepuasan" },
   { href: "/berita", label: "Berita" },
   { href: "/loker", label: "Info Loker" },
@@ -31,7 +36,16 @@ export function PublicNavbar() {
           <Logo />
         </Link>
         <nav className="hidden items-center gap-6 text-sm font-semibold text-navy-700 md:flex">
-          {links.map((link) => (
+          {linksBeforeSiapKerja.map((link) => (
+            <Link key={link.href} href={link.href} className="hover:text-navy-950">
+              {link.label}
+            </Link>
+          ))}
+          <SiapKerjaLink className="inline-flex items-center gap-1 hover:text-navy-950">
+            Siap Kerja
+            <ExternalLinkIcon className="h-3.5 w-3.5" />
+          </SiapKerjaLink>
+          {linksAfterSiapKerja.map((link) => (
             <Link key={link.href} href={link.href} className="hover:text-navy-950">
               {link.label}
             </Link>
