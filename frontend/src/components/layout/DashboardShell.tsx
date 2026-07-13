@@ -24,6 +24,13 @@ export function DashboardShell({
   const pathname = usePathname();
   const { user, logout } = useAuth();
 
+  // Pick the single best-matching nav item (longest href match) so a root item
+  // like "/admin" doesn't stay highlighted on every nested route.
+  const activeHref = navItems
+    .map((item) => item.href)
+    .filter((href) => pathname === href || pathname?.startsWith(`${href}/`))
+    .sort((a, b) => b.length - a.length)[0];
+
   return (
     <div className="flex min-h-screen bg-background">
       <aside className="hidden w-64 shrink-0 flex-col bg-navy-900 px-4 py-6 text-slate-200 lg:flex">
@@ -43,7 +50,7 @@ export function DashboardShell({
         )}
         <nav className="flex-1 space-y-1">
           {navItems.map((item) => {
-            const active = pathname === item.href || pathname?.startsWith(`${item.href}/`);
+            const active = item.href === activeHref;
             return (
               <Link
                 key={item.href}
