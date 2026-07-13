@@ -1,28 +1,28 @@
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
-export function LogoMark({ className }: { className?: string }) {
+export function LogoMark({
+  className,
+  onDark = false,
+}: {
+  className?: string;
+  onDark?: boolean;
+}) {
+  const img = (
+    <Image
+      src="/logo/logo-mark.png"
+      alt="Logo"
+      width={226}
+      height={320}
+      priority
+      className={cn(className ?? "h-9 w-auto", "object-contain")}
+    />
+  );
+  if (!onDark) return img;
   return (
-    <svg
-      viewBox="0 0 48 48"
-      className={cn("h-9 w-9", className)}
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M24 3 L43 11 V26 C43 36 35 43 24 46 C13 43 5 36 5 26 V11 Z"
-        fill="#0b1a35"
-        stroke="#f5a524"
-        strokeWidth="2"
-      />
-      <path
-        d="M18 15 H30 M18 15 V22 H27 V32 H16"
-        stroke="#f5a524"
-        strokeWidth="3"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        fill="none"
-      />
-    </svg>
+    <span className="inline-flex items-center justify-center rounded-xl bg-white p-1.5 shadow-sm">
+      {img}
+    </span>
   );
 }
 
@@ -35,16 +35,29 @@ export function Logo({
   tagline?: string;
   className?: string;
 }) {
-  const textColor = variant === "dark" ? "text-navy-950" : "text-white";
+  const onDark = variant === "light";
   return (
-    <div className={cn("flex items-center gap-2", className)}>
-      <LogoMark />
-      <div className="leading-tight">
-        <p className={cn("text-lg font-extrabold tracking-tight", textColor)}>
-          Si<span className="text-brand-orange-500">J</span>ker
+    <div className={cn("flex flex-col gap-1", className)}>
+      <span
+        className={cn(
+          "inline-flex w-fit items-center",
+          onDark && "rounded-xl bg-white px-3 py-1.5 shadow-sm"
+        )}
+      >
+        <Image
+          src="/logo/logo-full.png"
+          alt="Si Joker"
+          width={778}
+          height={320}
+          priority
+          className="h-8 w-auto object-contain"
+        />
+      </span>
+      {tagline && (
+        <p className={cn("text-[11px] font-medium", onDark ? "text-slate-300" : "text-slate-400")}>
+          {tagline}
         </p>
-        {tagline && <p className="text-[11px] font-medium text-slate-400">{tagline}</p>}
-      </div>
+      )}
     </div>
   );
 }
